@@ -1,0 +1,15 @@
+FROM python3.9-alpine
+
+WORKDIR /app
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+RUN pip install --upgrade pip \
+    && pip install pipenv
+
+COPY ./Pipfile /app/Pipfile
+
+RUN pipenv install --skip-lock --system --dev
+
+COPY . /app
