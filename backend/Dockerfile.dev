@@ -1,15 +1,25 @@
-FROM python3.9-alpine
+FROM python:3.9-alpine
 
 WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV DATABASE=postgres
+
+RUN apk update \
+    && apk add --virtual build-deps gcc python3-dev musl-dev \
+    && apk add jpeg-dev zlib-dev \
+    && apk add postgresql-dev 
 
 RUN pip install --upgrade pip \
     && pip install pipenv
 
 COPY ./Pipfile /app/Pipfile
 
-RUN pipenv install --skip-lock --system --dev
+RUN pipenv install --skip-lock --system
+
+RUN apk del build-deps
 
 COPY . /app
+
+ENTRYPOINT [ "/app/entrypoint.sh" ]
