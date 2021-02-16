@@ -1,19 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import { Col, Row } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+
 import Product from '../components/Product';
-import django from '../django';
+import { RootState } from '../redux/rootReducer';
+import { fetchProductList } from '../redux/product/productListSlice';
 
 const HomeScreen: React.FC = () => {
-  const [products, setproducts] = useState<Product[]>([]);
+  const dispatch = useDispatch();
+  const productList = useSelector((state: RootState) => state.productList);
+  const { error, loading, products } = productList;
 
   useEffect(() => {
-    async function fetchProducts() {
-      const { data } = await django.get('/api/products');
-      setproducts(data);
-    }
-
-    fetchProducts();
-  }, []);
+    dispatch(fetchProductList());
+  }, [dispatch]);
 
   return (
     <div>
