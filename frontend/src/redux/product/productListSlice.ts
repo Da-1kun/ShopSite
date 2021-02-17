@@ -5,15 +5,15 @@ import django from '../../django';
 import { AppThunk } from '../store';
 
 interface ProductListState {
-  loading: boolean;
+  isLoading: boolean;
   products: Product[];
-  error: string | null;
+  errorMessage: string | null;
 }
 
 let initialState: ProductListState = {
-  loading: true,
+  isLoading: true,
   products: [],
-  error: null,
+  errorMessage: null,
 };
 
 const productListSlice = createSlice({
@@ -21,16 +21,16 @@ const productListSlice = createSlice({
   initialState,
   reducers: {
     productListRequest(state) {
-      state.loading = true;
+      state.isLoading = true;
       state.products = [];
     },
     productListSuccess(state, action: PayloadAction<Product[]>) {
-      state.loading = false;
+      state.isLoading = false;
       state.products = action.payload;
     },
     productListFail(state, action: PayloadAction<string>) {
-      state.loading = false;
-      state.error = action.payload;
+      state.isLoading = false;
+      state.errorMessage = action.payload;
     },
   },
 });
@@ -51,10 +51,10 @@ export const fetchProductList = (): AppThunk => async dispatch => {
 
     dispatch(productListSuccess(data));
   } catch (error) {
-    const message =
+    const errorMessage =
       error.response && error.response.data.message
         ? error.response.data.message
         : error.message;
-    dispatch(productListFail(message));
+    dispatch(productListFail(errorMessage));
   }
 };

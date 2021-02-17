@@ -1,22 +1,22 @@
 version: '3'
 services:
-  # client:
-  #   stdin_open: true
-  #   build:
-  #     context: ./frontend
-  #     dockerfile: Dockerfile.dev
-  #   ports:
-  #     - '3000:3000'
-  #   volumes:
-  #     - /app/node_modules
-  #     - ./frontend:/app
+  client:
+    stdin_open: true
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - '3000:3000'
+    volumes:
+      - /app/frontend/node_modules
+      - ./frontend:/app/frontend
   django:
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./backend:/app
+      - ./backend:/app/backend
     ports:
       - 8000:8000
     environment:
