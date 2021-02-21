@@ -2,16 +2,15 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import Product from '../../components/Product';
 import django from '../../django';
+import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 
-interface ProductListState {
-  isLoading: boolean;
+interface ProductListState extends CommonState {
   products: Product[];
-  errorMessage: string | null;
 }
 
-let initialState: ProductListState = {
-  isLoading: true,
+const initialState: ProductListState = {
+  isLoading: false,
   products: [],
   errorMessage: null,
 };
@@ -51,10 +50,6 @@ export const fetchProductList = (): AppThunk => async dispatch => {
 
     dispatch(productListSuccess(data));
   } catch (error) {
-    const errorMessage =
-      error.response && error.response.data.message
-        ? error.response.data.message
-        : error.message;
-    dispatch(productListFail(errorMessage));
+    dispatch(productListFail(getErrorMessage(error)));
   }
 };

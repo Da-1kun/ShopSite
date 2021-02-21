@@ -20,7 +20,7 @@ const cartItemsFromStorage: CartItem[] = JSON.parse(
   localStorage.getItem('cartItems') || '[]'
 );
 
-let initialState: CartState = {
+const initialState: CartState = {
   cartItems: cartItemsFromStorage,
 };
 

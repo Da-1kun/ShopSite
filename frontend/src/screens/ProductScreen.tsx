@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import Rating from '../components/Rating';
 import { RootState } from '../redux/rootReducer';
-import { fetchProductDetail } from '../redux/product/productDetailSlice';
+import { fetchProductDetails } from '../redux/product/productDetailsSlice';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 
@@ -30,11 +30,11 @@ export const ProductScreen: React.FC<ProductScreenProps> = ({
   const [qty, setQty] = useState(1);
 
   const dispatch = useDispatch();
-  const productDetail = useSelector((state: RootState) => state.productDetail);
+  const productDetail = useSelector((state: RootState) => state.productDetails);
   const { errorMessage, isLoading, product } = productDetail;
 
   useEffect(() => {
-    dispatch(fetchProductDetail(match.params.id));
+    dispatch(fetchProductDetails(match.params.id));
   }, [dispatch, match]);
 
   const addToCartHandler = () => {
