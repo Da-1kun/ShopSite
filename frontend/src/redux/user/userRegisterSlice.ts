@@ -7,12 +7,12 @@ import { AppThunk } from '../store';
 import { userLoginSuccess } from './userLoginSlice';
 
 interface UserRegisterState extends CommonState {
-  userInfo: UserInfo | null;
+  userInfo: Partial<UserInfo>;
 }
 
 const initialState: UserRegisterState = {
   isLoading: false,
-  userInfo: null,
+  userInfo: {},
   errorMessage: null,
 };
 

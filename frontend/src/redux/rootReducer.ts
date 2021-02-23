@@ -7,6 +7,7 @@ import userDetailsReducer from './user/userDetailsSlice';
 import userRegisterReducer from './user/userRegisterSlice';
 import userUpdateProfileReducer from './user/userUpdateProfileSlice';
 import cartReducer from './cartSlice';
+import orderCreateReducer from './order/orderCreateSlice';
 
 const rootReducer = combineReducers({
   productList: productListReducer,
@@ -16,6 +17,7 @@ const rootReducer = combineReducers({
   userRegister: userRegisterReducer,
   userUpdateProfile: userUpdateProfileReducer,
   cart: cartReducer,
+  orderCreate: orderCreateReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

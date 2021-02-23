@@ -10,7 +10,7 @@ export interface UserInfo extends User {
 }
 
 interface UserLoginState extends CommonState {
-  userInfo: UserInfo | null;
+  userInfo: Partial<UserInfo>;
 }
 
 const userInfoFromStorage: UserInfo = JSON.parse(
@@ -40,7 +40,7 @@ const userLoginSlice = createSlice({
     },
     userLogout(state) {
       state.isLoading = false;
-      state.userInfo = null;
+      state.userInfo = {};
       state.errorMessage = null;
     },
   },

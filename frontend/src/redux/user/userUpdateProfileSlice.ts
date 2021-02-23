@@ -5,16 +5,15 @@ import django from '../../django';
 import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 import { userLoginSuccess } from './userLoginSlice';
-import { User } from './userDetailsSlice';
 
 interface UserUpdateProfileState extends CommonState {
-  userInfo: UserInfo | null;
+  userInfo: Partial<UserInfo>;
   success: boolean;
 }
 
 const initialState: UserUpdateProfileState = {
   isLoading: false,
-  userInfo: null,
+  userInfo: {},
   success: false,
   errorMessage: null,
 };
@@ -36,8 +35,8 @@ const userUpdateProfileSlice = createSlice({
       state.errorMessage = action.payload;
     },
     userUpdateProfileReset(state) {
-      state.isLoading = true;
-      state.userInfo = null;
+      state.isLoading = false;
+      state.userInfo = {};
       state.errorMessage = null;
       state.success = false;
     },

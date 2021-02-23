@@ -14,11 +14,12 @@ export interface User {
 }
 
 interface UserDetailsState extends CommonState {
-  user?: User;
+  user: User | null;
 }
 
 const initialState: UserDetailsState = {
   isLoading: false,
+  user: null,
   errorMessage: null,
 };
 
@@ -39,6 +40,7 @@ const userDetailsSlice = createSlice({
     },
     userDetailsReset(state) {
       state.isLoading = false;
+      state.user = null;
       state.errorMessage = null;
     },
   },

@@ -3,25 +3,48 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import django from '../django';
 import { AppThunk } from './store';
 
-interface CartItem {
-  _id: string;
+export interface CartItem {
+  _id?: string;
   name: string;
   image: string;
   price: number;
   countInStock: number;
   qty: number;
+  product?: string;
+}
+
+export interface ShippingAddress {
+  address: string;
+  city: string;
+  postalCode: string;
+  country: string;
+}
+
+export interface PriceInfo {
+  itemsPrice: string;
+  shippingPrice: string;
+  taxPrice: string;
+  totalPrice: string;
 }
 
 interface CartState {
   cartItems: CartItem[];
+  shippingAddress: ShippingAddress;
+  paymentMethod: string | null;
 }
 
 const cartItemsFromStorage: CartItem[] = JSON.parse(
   localStorage.getItem('cartItems') || '[]'
 );
 
+const shippingAddressFromStorage: ShippingAddress = JSON.parse(
+  localStorage.getItem('shippingAddress') || '{}'
+);
+
 const initialState: CartState = {
   cartItems: cartItemsFromStorage,
+  shippingAddress: shippingAddressFromStorage,
+  paymentMethod: null,
 };
 
 const cartSlice = createSlice({
@@ -41,34 +64,45 @@ const cartSlice = createSlice({
         state.cartItems.push(item);
       }
     },
-    cartRemoveItem: {
-      reducer: (state, action: PayloadAction<string>) => {
-        state.cartItems = state.cartItems.filter(
-          cartItem => cartItem._id !== action.payload
-        );
+    cartRemoveItem(state, action: PayloadAction<string | undefined>) {
+      state.cartItems = state.cartItems.filter(
+        cartItem => cartItem._id !== action.payload
+      );
 
-        localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
-      },
-      prepare: (id: string) => {
-        return { payload: id };
-      },
+      localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
+    },
+    cartSaveShippingAddress(state, action: PayloadAction<ShippingAddress>) {
+      state.shippingAddress = action.payload;
+    },
+    cartSavePaymentMethod(state, action: PayloadAction<string>) {
+      state.paymentMethod = action.payload;
+    },
+    cartClearItems(state) {
+      state.cartItems = [];
+      state.paymentMethod = null;
     },
   },
 });
 
-export const { cartAddItem, cartRemoveItem } = cartSlice.actions;
+export const {
+  cartAddItem,
+  cartRemoveItem,
+  cartSaveShippingAddress,
+  cartSavePaymentMethod,
+  cartClearItems,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;
 
-export const addToCart = (id: string, qty: number): AppThunk => async (
-  dispatch,
-  getState
-) => {
+export const addToCart = (
+  id: string | undefined,
+  qty: number
+): AppThunk => async (dispatch, getState) => {
   const { data } = await django.get(`/api/products/${id}`);
 
   dispatch(
     cartAddItem({
-      _id: data._id,
+      product: data._id,
       name: data.name,
       image: data.image,
       price: data.price,

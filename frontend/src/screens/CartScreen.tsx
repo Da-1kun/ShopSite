@@ -39,7 +39,7 @@ const CartScreen: React.FC<CartScreenProps> = ({
     }
   }, [dispatch, productId, qty]);
 
-  const removeFromCartHandler = (id: string) => {
+  const removeFromCartHandler = (id: string | undefined) => {
     dispatch(cartRemoveItem(id));
   };
 
@@ -58,13 +58,13 @@ const CartScreen: React.FC<CartScreenProps> = ({
         ) : (
           <ListGroup variant="flush">
             {cartItems.map(item => (
-              <ListGroup.Item key={item._id}>
+              <ListGroup.Item key={item.product}>
                 <Row>
                   <Col md={2}>
                     <Image src={item.image} alt={item.name} fluid rounded />
                   </Col>
                   <Col md={3}>
-                    <Link to={`/product/${item._id}`}>{item.name}</Link>
+                    <Link to={`/product/${item.product}`}>{item.name}</Link>
                   </Col>
 
                   <Col md={2}>${item.price}</Col>
@@ -74,7 +74,9 @@ const CartScreen: React.FC<CartScreenProps> = ({
                       as="select"
                       value={item.qty}
                       onChange={e =>
-                        dispatch(addToCart(item._id, Number(e.target.value)))
+                        dispatch(
+                          addToCart(item.product, Number(e.target.value))
+                        )
                       }
                     >
                       {[...Array(item.countInStock).keys()].map(x => (
@@ -89,7 +91,7 @@ const CartScreen: React.FC<CartScreenProps> = ({
                     <Button
                       type="button"
                       variant="light"
-                      onClick={() => removeFromCartHandler(item._id)}
+                      onClick={() => removeFromCartHandler(item.product)}
                     >
                       <i className="fas fa-trash"></i>
                     </Button>
