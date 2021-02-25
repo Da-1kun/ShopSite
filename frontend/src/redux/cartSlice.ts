@@ -1,16 +1,11 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import django from '../django';
+import { OrderItem } from './order/orderCreateSlice';
 import { AppThunk } from './store';
 
-export interface CartItem {
-  _id?: string;
-  name: string;
-  image: string;
-  price: number;
+interface CartItem extends OrderItem {
   countInStock: number;
-  qty: number;
-  product?: string;
 }
 
 export interface ShippingAddress {
@@ -18,13 +13,6 @@ export interface ShippingAddress {
   city: string;
   postalCode: string;
   country: string;
-}
-
-export interface PriceInfo {
-  itemsPrice: string;
-  shippingPrice: string;
-  taxPrice: string;
-  totalPrice: string;
 }
 
 interface CartState {
@@ -64,7 +52,7 @@ const cartSlice = createSlice({
         state.cartItems.push(item);
       }
     },
-    cartRemoveItem(state, action: PayloadAction<string | undefined>) {
+    cartRemoveItem(state, action: PayloadAction<string>) {
       state.cartItems = state.cartItems.filter(
         cartItem => cartItem._id !== action.payload
       );
@@ -94,10 +82,10 @@ export const {
 
 export default cartSlice.reducer;
 
-export const addToCart = (
-  id: string | undefined,
-  qty: number
-): AppThunk => async (dispatch, getState) => {
+export const addToCart = (id: string, qty: number): AppThunk => async (
+  dispatch,
+  getState
+) => {
   const { data } = await django.get(`/api/products/${id}`);
 
   dispatch(

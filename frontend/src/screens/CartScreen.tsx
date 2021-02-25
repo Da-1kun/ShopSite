@@ -39,7 +39,7 @@ const CartScreen: React.FC<CartScreenProps> = ({
     }
   }, [dispatch, productId, qty]);
 
-  const removeFromCartHandler = (id: string | undefined) => {
+  const removeFromCartHandler = (id: string) => {
     dispatch(cartRemoveItem(id));
   };
 

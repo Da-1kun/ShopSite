@@ -3,15 +3,11 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import django from '../../django';
 import { AppThunk } from '../store';
 import { CommonState, getErrorMessage } from '../common';
-import {
-  CartItem,
-  ShippingAddress,
-  PriceInfo,
-  cartClearItems,
-} from '../cartSlice';
+import { ShippingAddress, cartClearItems } from '../cartSlice';
 import { User } from '../user/userDetailsSlice';
 
 interface Order {
+  user: User;
   paymentMethod: string;
   taxPrice: number;
   shippingPrice: number;
@@ -24,10 +20,19 @@ interface Order {
   _id: string;
 }
 
+export interface OrderItem {
+  product: string;
+  order?: string;
+  name: string;
+  qty: number;
+  price: number;
+  image: string;
+  _id?: string;
+}
+
 interface OrderInfo extends Order {
-  orderItems: CartItem[];
+  orderItems: OrderItem[];
   shippingAddress: ShippingAddress;
-  user: User;
 }
 
 interface OrderCreateState extends CommonState {
@@ -76,10 +81,14 @@ export const {
 
 export default orderCreateSlice.reducer;
 
-interface CreateOrderInfo extends PriceInfo {
-  orderItems: CartItem[];
+interface CreateOrderInfo {
+  orderItems: OrderItem[];
   shippingAddress: ShippingAddress;
   paymentMethod: string | null;
+  itemsPrice: string;
+  shippingPrice: string;
+  taxPrice: string;
+  totalPrice: string;
 }
 
 export const createOrder = (order: CreateOrderInfo): AppThunk => async (

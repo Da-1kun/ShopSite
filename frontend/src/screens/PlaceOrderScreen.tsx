@@ -36,7 +36,6 @@ const PlaceOrderScreen: React.FC<RouteComponentProps> = ({ history }) => {
 
   useEffect(() => {
     if (success) {
-      console.log(orderInfo);
       history.push(`/order/${orderInfo._id}`);
       dispatch(orderCreateReset());
     }
