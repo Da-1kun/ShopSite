@@ -8,6 +8,8 @@ import userRegisterReducer from './user/userRegisterSlice';
 import userUpdateProfileReducer from './user/userUpdateProfileSlice';
 import cartReducer from './cartSlice';
 import orderCreateReducer from './order/orderCreateSlice';
+import orderDetailsReducer from './order/orderDetailsSlice';
+import orderPayReducer from './order/orderPaySlice';
 
 const rootReducer = combineReducers({
   productList: productListReducer,
@@ -18,6 +20,8 @@ const rootReducer = combineReducers({
   userUpdateProfile: userUpdateProfileReducer,
   cart: cartReducer,
   orderCreate: orderCreateReducer,
+  orderDetails: orderDetailsReducer,
+  orderPay: orderPayReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

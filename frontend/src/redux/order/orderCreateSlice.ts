@@ -17,7 +17,7 @@ interface Order {
   isDelivered: boolean;
   deliveredAt: string | null;
   createdAt: string;
-  _id: string;
+  _id: number;
 }
 
 export interface OrderItem {
@@ -30,7 +30,7 @@ export interface OrderItem {
   _id?: string;
 }
 
-interface OrderInfo extends Order {
+export interface OrderInfo extends Order {
   orderItems: OrderItem[];
   shippingAddress: ShippingAddress;
 }
@@ -105,7 +105,7 @@ export const createOrder = (order: CreateOrderInfo): AppThunk => async (
     const config = {
       headers: {
         'Content-type': 'application/json',
-        Authorization: `Bearer ${userInfo?.token}`,
+        Authorization: `Bearer ${userInfo.token}`,
       },
     };
 

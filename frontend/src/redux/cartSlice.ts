@@ -42,11 +42,12 @@ const cartSlice = createSlice({
     cartAddItem(state, action: PayloadAction<CartItem>) {
       const item = action.payload;
       const existItem = state.cartItems.find(
-        cartItem => cartItem._id === item._id
+        cartItem => cartItem.product === item.product
       );
+
       if (existItem) {
         state.cartItems = state.cartItems.map(cartItem =>
-          cartItem._id === item._id ? item : cartItem
+          cartItem.product === item.product ? item : cartItem
         );
       } else {
         state.cartItems.push(item);
@@ -54,7 +55,7 @@ const cartSlice = createSlice({
     },
     cartRemoveItem(state, action: PayloadAction<string>) {
       state.cartItems = state.cartItems.filter(
-        cartItem => cartItem._id !== action.payload
+        cartItem => cartItem.product !== action.payload
       );
 
       localStorage.setItem('cartItems', JSON.stringify(state.cartItems));
