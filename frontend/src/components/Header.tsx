@@ -6,6 +6,8 @@ import { LinkContainer } from 'react-router-bootstrap';
 import { RootState } from '../redux/rootReducer';
 import { userLogout } from '../redux/user/userLoginSlice';
 import { userDetailsReset } from '../redux/user/userDetailsSlice';
+import { orderListMyReset } from '../redux/order/orderListMySlice';
+import { userListReset } from '../redux/user/userListSlice';
 
 const Header: React.FC = () => {
   const userLogin = useSelector((state: RootState) => state.userLogin);
@@ -17,6 +19,8 @@ const Header: React.FC = () => {
     localStorage.removeItem('userInfo');
     dispatch(userLogout());
     dispatch(userDetailsReset());
+    dispatch(orderListMyReset());
+    dispatch(userListReset());
   };
 
   return (
@@ -54,7 +58,7 @@ const Header: React.FC = () => {
                 </LinkContainer>
               )}
 
-              {/* {userInfo && userInfo.isAdmin && (
+              {userInfo && userInfo.isAdmin && (
                 <NavDropdown title="Admin" id="adminmenue">
                   <LinkContainer to="/admin/userlist">
                     <NavDropdown.Item>Users</NavDropdown.Item>
@@ -68,7 +72,7 @@ const Header: React.FC = () => {
                     <NavDropdown.Item>Orders</NavDropdown.Item>
                   </LinkContainer>
                 </NavDropdown>
-              )} */}
+              )}
             </Nav>
           </Navbar.Collapse>
         </Container>

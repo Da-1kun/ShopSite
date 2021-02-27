@@ -105,7 +105,7 @@ export const createOrder = (order: CreateOrderInfo): AppThunk => async (
     const config = {
       headers: {
         'Content-type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${userInfo?.token}`,
       },
     };
 

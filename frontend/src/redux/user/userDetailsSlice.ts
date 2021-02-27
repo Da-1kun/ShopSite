@@ -6,7 +6,7 @@ import { AppThunk } from '../store';
 
 export interface User {
   _id: number;
-  username: string;
+  username?: string;
   email: string;
   name: string;
   isAdmin: boolean;
@@ -68,7 +68,7 @@ export const getUserDetails = (id: string): AppThunk => async (
     const config = {
       headers: {
         'Content-type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${userInfo?.token}`,
       },
     };
 

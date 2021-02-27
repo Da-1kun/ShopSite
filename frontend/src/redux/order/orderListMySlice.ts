@@ -58,7 +58,7 @@ export const listMyOrders = (): AppThunk => async (dispatch, getState) => {
     const config = {
       headers: {
         'Content-type': 'application/json',
-        Authorization: `Bearer ${userInfo.token}`,
+        Authorization: `Bearer ${userInfo?.token}`,
       },
     };
 

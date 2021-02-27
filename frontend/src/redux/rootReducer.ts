@@ -6,6 +6,9 @@ import userLoginReducer from './user/userLoginSlice';
 import userDetailsReducer from './user/userDetailsSlice';
 import userRegisterReducer from './user/userRegisterSlice';
 import userUpdateProfileReducer from './user/userUpdateProfileSlice';
+import userListReducer from './user/userListSlice';
+import userDeleteReducer from './user/userDeleteSlice';
+import userUpdateReducer from './user/userUpdateSlice';
 import cartReducer from './cartSlice';
 import orderCreateReducer from './order/orderCreateSlice';
 import orderDetailsReducer from './order/orderDetailsSlice';
@@ -19,6 +22,9 @@ const rootReducer = combineReducers({
   userDetails: userDetailsReducer,
   userRegister: userRegisterReducer,
   userUpdateProfile: userUpdateProfileReducer,
+  userList: userListReducer,
+  userDelete: userDeleteReducer,
+  userUpdate: userUpdateReducer,
   cart: cartReducer,
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
