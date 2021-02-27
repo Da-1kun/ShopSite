@@ -19,7 +19,7 @@ const PlaceOrderScreen: React.FC<RouteComponentProps> = ({ history }) => {
   const cart = useSelector((state: RootState) => state.cart);
 
   const itemsPrice: string = cart.cartItems
-    .reduce((acc, item) => acc + item.price * item.qty, 0)
+    .reduce((acc, item) => acc + Number(item.price) * item.qty, 0)
     .toFixed(2);
   const shippingPrice: string = (Number(itemsPrice) > 100 ? 0 : 10).toFixed(2);
   const taxPrice: string = Number(0.082 * Number(itemsPrice)).toFixed(2);
@@ -107,7 +107,7 @@ const PlaceOrderScreen: React.FC<RouteComponentProps> = ({ history }) => {
 
                         <Col md={4}>
                           {item.qty} X ${item.price} = $
-                          {(item.qty * item.price).toFixed(2)}
+                          {(item.qty * Number(item.price)).toFixed(2)}
                         </Col>
                       </Row>
                     </ListGroup.Item>

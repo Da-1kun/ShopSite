@@ -37,7 +37,7 @@ const OrderScreen: React.FC<OrderScreenProps> = ({ match, history }) => {
   let itemsPrice = '0';
   if (!isLoading && !errorMessage && orderInfo) {
     itemsPrice = orderInfo.orderItems
-      .reduce((acc, item) => acc + item.price * item.qty, 0)
+      .reduce((acc, item) => acc + Number(item.price) * item.qty, 0)
       .toFixed(2);
   }
 
@@ -77,37 +77,37 @@ const OrderScreen: React.FC<OrderScreenProps> = ({ match, history }) => {
     dispatch(payOrder(orderId, paymentResult));
   };
 
-  return isLoading || !orderInfo ? (
+  return isLoading ? (
     <Loader />
   ) : errorMessage ? (
     <Message variant="danger">{errorMessage}</Message>
   ) : (
     <div>
-      <h1>Order: {orderInfo._id}</h1>
+      <h1>Order: {orderInfo?._id}</h1>
       <Row>
         <Col md={8}>
           <ListGroup variant="flush">
             <ListGroup.Item>
               <h2>Shipping</h2>
               <p>
-                <strong>Name: </strong> {orderInfo.user.name}
+                <strong>Name: </strong> {orderInfo?.user.name}
               </p>
               <p>
                 <strong>Email: </strong>
-                {orderInfo.user.email}
+                {orderInfo?.user.email}
               </p>
               <p>
                 <strong>Shipping: </strong>
-                {orderInfo.shippingAddress.address},{' '}
-                {orderInfo.shippingAddress.city}
+                {orderInfo?.shippingAddress.address},{' '}
+                {orderInfo?.shippingAddress.city}
                 {'  '}
-                {orderInfo.shippingAddress.postalCode},{'  '}
-                {orderInfo.shippingAddress.country}
+                {orderInfo?.shippingAddress.postalCode},{'  '}
+                {orderInfo?.shippingAddress.country}
               </p>
 
-              {orderInfo.isDelivered ? (
+              {orderInfo?.isDelivered ? (
                 <Message variant="success">
-                  Delivered on {orderInfo.deliveredAt}
+                  Delivered on {orderInfo?.deliveredAt}
                 </Message>
               ) : (
                 <Message variant="warning">Not Delivered</Message>
@@ -118,10 +118,10 @@ const OrderScreen: React.FC<OrderScreenProps> = ({ match, history }) => {
               <h2>Payment Method</h2>
               <p>
                 <strong>Method: </strong>
-                {orderInfo.paymentMethod}
+                {orderInfo?.paymentMethod}
               </p>
-              {orderInfo.isPaid ? (
-                <Message variant="success">Paid on {orderInfo.paidAt}</Message>
+              {orderInfo?.isPaid ? (
+                <Message variant="success">Paid on {orderInfo?.paidAt}</Message>
               ) : (
                 <Message variant="warning">Not Paid</Message>
               )}
@@ -129,11 +129,11 @@ const OrderScreen: React.FC<OrderScreenProps> = ({ match, history }) => {
 
             <ListGroup.Item>
               <h2>Order Items</h2>
-              {orderInfo.orderItems.length === 0 ? (
+              {orderInfo?.orderItems.length === 0 ? (
                 <Message variant="info">Order is empty</Message>
               ) : (
                 <ListGroup variant="flush">
-                  {orderInfo.orderItems.map((item, index) => (
+                  {orderInfo?.orderItems.map((item, index) => (
                     <ListGroup.Item key={index}>
                       <Row>
                         <Col md={1}>
@@ -153,7 +153,7 @@ const OrderScreen: React.FC<OrderScreenProps> = ({ match, history }) => {
 
                         <Col md={4}>
                           {item.qty} X ${item.price} = $
-                          {(item.qty * item.price).toFixed(2)}
+                          {(item.qty * Number(item.price)).toFixed(2)}
                         </Col>
                       </Row>
                     </ListGroup.Item>
@@ -181,25 +181,25 @@ const OrderScreen: React.FC<OrderScreenProps> = ({ match, history }) => {
               <ListGroup.Item>
                 <Row>
                   <Col>Shipping:</Col>
-                  <Col>${orderInfo.shippingPrice}</Col>
+                  <Col>${orderInfo?.shippingPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col>Tax:</Col>
-                  <Col>${orderInfo.taxPrice}</Col>
+                  <Col>${orderInfo?.taxPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
               <ListGroup.Item>
                 <Row>
                   <Col>Total:</Col>
-                  <Col>${orderInfo.totalPrice}</Col>
+                  <Col>${orderInfo?.totalPrice}</Col>
                 </Row>
               </ListGroup.Item>
 
-              {!orderInfo.isPaid && (
+              {!orderInfo?.isPaid && (
                 <ListGroup.Item>
                   {loadingPay && <Loader />}
 
@@ -207,7 +207,7 @@ const OrderScreen: React.FC<OrderScreenProps> = ({ match, history }) => {
                     <Loader />
                   ) : (
                     <PayPalButton
-                      amount={orderInfo.totalPrice}
+                      amount={orderInfo?.totalPrice}
                       onSuccess={successPaymentHandler}
                     />
                   )}
@@ -217,8 +217,8 @@ const OrderScreen: React.FC<OrderScreenProps> = ({ match, history }) => {
 
             {userInfo &&
               userInfo.isAdmin &&
-              orderInfo.isPaid &&
-              !orderInfo.isDelivered && (
+              orderInfo?.isPaid &&
+              !orderInfo?.isDelivered && (
                 <ListGroup.Item>
                   <Button type="button" className="btn btn-block">
                     Mark As Delivered

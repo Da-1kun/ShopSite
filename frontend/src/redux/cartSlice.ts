@@ -53,7 +53,7 @@ const cartSlice = createSlice({
         state.cartItems.push(item);
       }
     },
-    cartRemoveItem(state, action: PayloadAction<string>) {
+    cartRemoveItem(state, action: PayloadAction<number>) {
       state.cartItems = state.cartItems.filter(
         cartItem => cartItem.product !== action.payload
       );
@@ -83,7 +83,7 @@ export const {
 
 export default cartSlice.reducer;
 
-export const addToCart = (id: string, qty: number): AppThunk => async (
+export const addToCart = (id: number, qty: number): AppThunk => async (
   dispatch,
   getState
 ) => {

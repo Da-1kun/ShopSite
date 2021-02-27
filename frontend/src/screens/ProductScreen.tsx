@@ -64,7 +64,7 @@ export const ProductScreen: React.FC<ProductScreenProps> = ({
 
                 <ListGroup.Item>
                   <Rating
-                    value={product.rating}
+                    value={Number(product.rating)}
                     text={`${product.numReviews} reviews`}
                     color={'#f8e825'}
                   />

@@ -5,12 +5,11 @@ import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 
 export interface User {
-  id: string;
-  _id: string;
+  _id: number;
   username: string;
   email: string;
   name: string;
-  isAdmin: string;
+  isAdmin: boolean;
 }
 
 interface UserDetailsState extends CommonState {

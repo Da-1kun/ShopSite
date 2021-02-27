@@ -9,9 +9,9 @@ import { User } from '../user/userDetailsSlice';
 interface Order {
   user: User;
   paymentMethod: string;
-  taxPrice: number;
-  shippingPrice: number;
-  totalPrice: number;
+  taxPrice: string;
+  shippingPrice: string;
+  totalPrice: string;
   isPaid: boolean;
   paidAt: string;
   isDelivered: boolean;
@@ -21,13 +21,13 @@ interface Order {
 }
 
 export interface OrderItem {
-  product: string;
-  order?: string;
+  product: number;
+  order?: number;
   name: string;
   qty: number;
-  price: number;
+  price: string;
   image: string;
-  _id?: string;
+  _id?: number;
 }
 
 export interface OrderInfo extends Order {

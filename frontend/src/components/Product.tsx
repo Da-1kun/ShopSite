@@ -4,15 +4,15 @@ import Rating from './Rating';
 import { Link } from 'react-router-dom';
 
 interface Product {
-  _id: string;
+  _id: number;
   name: string;
   image: string;
   description: string;
   brand: string;
   category: string;
-  price: number;
+  price: string;
   countInStock: number;
-  rating: number;
+  rating: string;
   numReviews: number;
 }
 
@@ -37,7 +37,7 @@ const Product: React.FC<Props> = ({ product }: Props) => {
         <Card.Text as="div">
           <div className="my-3">
             <Rating
-              value={product.rating}
+              value={Number(product.rating)}
               text={`${product.numReviews} reviews`}
               color={'#f8e825'}
             />

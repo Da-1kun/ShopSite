@@ -10,6 +10,7 @@ import cartReducer from './cartSlice';
 import orderCreateReducer from './order/orderCreateSlice';
 import orderDetailsReducer from './order/orderDetailsSlice';
 import orderPayReducer from './order/orderPaySlice';
+import orderListMyReducer from './order/orderListMySlice';
 
 const rootReducer = combineReducers({
   productList: productListReducer,
@@ -22,6 +23,7 @@ const rootReducer = combineReducers({
   orderCreate: orderCreateReducer,
   orderDetails: orderDetailsReducer,
   orderPay: orderPayReducer,
+  orderListMy: orderListMyReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

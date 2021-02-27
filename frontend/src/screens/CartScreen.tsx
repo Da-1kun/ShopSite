@@ -35,11 +35,11 @@ const CartScreen: React.FC<CartScreenProps> = ({
 
   useEffect(() => {
     if (productId) {
-      dispatch(addToCart(productId, qty));
+      dispatch(addToCart(Number(productId), qty));
     }
   }, [dispatch, productId, qty]);
 
-  const removeFromCartHandler = (id: string) => {
+  const removeFromCartHandler = (id: number) => {
     dispatch(cartRemoveItem(id));
   };
 
@@ -113,7 +113,7 @@ const CartScreen: React.FC<CartScreenProps> = ({
               </h2>
               $
               {cartItems
-                .reduce((acc, item) => acc + item.qty * item.price, 0)
+                .reduce((acc, item) => acc + item.qty * Number(item.price), 0)
                 .toFixed(2)}
             </ListGroup.Item>
           </ListGroup>

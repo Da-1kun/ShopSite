@@ -53,7 +53,7 @@ export const {
 export default userUpdateProfileSlice.reducer;
 
 interface updateParams {
-  id: string;
+  _id: number;
   email: string;
   name: string;
   password: string;
