@@ -36,7 +36,6 @@ export interface OrderInfo extends Order {
 }
 
 interface OrderCreateState extends CommonState {
-  success: boolean;
   orderInfo: Partial<OrderInfo>;
 }
 

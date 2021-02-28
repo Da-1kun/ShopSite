@@ -3,31 +3,32 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import django from '../../django';
 import { AppThunk } from '../store';
 import { CommonState, getErrorMessage } from '../common';
+import { OrderInfo } from './orderCreateSlice';
 
-interface OrderPayState extends CommonState {}
+interface OrderDeliverState extends CommonState {}
 
-const initialState: OrderPayState = {
+const initialState: OrderDeliverState = {
   isLoading: false,
   success: false,
   errorMessage: null,
 };
 
-const orderPaySlice = createSlice({
-  name: 'orderPay',
+const orderDeliverSlice = createSlice({
+  name: 'orderDeliver',
   initialState,
   reducers: {
-    orderPayRequst(state) {
+    orderDeliverRequst(state) {
       state.isLoading = true;
     },
-    orderPaySuccess(state) {
+    orderDeliverSuccess(state) {
       state.isLoading = false;
       state.success = true;
     },
-    orderPayFail(state, action: PayloadAction<string>) {
+    orderDeliverFail(state, action: PayloadAction<string>) {
       state.isLoading = false;
       state.errorMessage = action.payload;
     },
-    orderPayReset(state) {
+    orderDeliverReset(state) {
       state.isLoading = false;
       state.success = false;
       state.errorMessage = null;
@@ -36,20 +37,20 @@ const orderPaySlice = createSlice({
 });
 
 export const {
-  orderPayRequst,
-  orderPaySuccess,
-  orderPayFail,
-  orderPayReset,
-} = orderPaySlice.actions;
+  orderDeliverRequst,
+  orderDeliverSuccess,
+  orderDeliverFail,
+  orderDeliverReset,
+} = orderDeliverSlice.actions;
 
-export default orderPaySlice.reducer;
+export default orderDeliverSlice.reducer;
 
-export const payOrder = (id: string, paymentResult: any): AppThunk => async (
+export const deliverOrder = (order: OrderInfo): AppThunk => async (
   dispatch,
   getState
 ) => {
   try {
-    dispatch(orderPayRequst());
+    dispatch(orderDeliverRequst());
 
     const {
       userLogin: { userInfo },
@@ -62,10 +63,10 @@ export const payOrder = (id: string, paymentResult: any): AppThunk => async (
       },
     };
 
-    await django.put(`/api/orders/${id}/pay/`, paymentResult, config);
+    await django.put(`/api/orders/${order._id}/deliver/`, {}, config);
 
-    dispatch(orderPaySuccess());
+    dispatch(orderDeliverSuccess());
   } catch (error) {
-    dispatch(orderPayFail(getErrorMessage(error)));
+    dispatch(orderDeliverFail(getErrorMessage(error)));
   }
 };

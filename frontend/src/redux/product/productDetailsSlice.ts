@@ -41,7 +41,7 @@ export const {
 
 export default productDetailsSlice.reducer;
 
-export const fetchProductDetails = (id: string): AppThunk => async dispatch => {
+export const fetchProductDetails = (id: number): AppThunk => async dispatch => {
   try {
     dispatch(productDetailsRequest());
 

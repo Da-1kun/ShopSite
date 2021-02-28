@@ -1,6 +1,7 @@
 export interface CommonState {
   isLoading: boolean;
   errorMessage: string | null;
+  success?: boolean;
 }
 
 export const getErrorMessage = (error: any): string => {

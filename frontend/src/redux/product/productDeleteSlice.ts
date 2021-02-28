@@ -4,26 +4,26 @@ import django from '../../django';
 import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 
-interface UserDeleteState extends CommonState {}
+interface ProductDeleteState extends CommonState {}
 
-const initialState: UserDeleteState = {
+const initialState: ProductDeleteState = {
   isLoading: false,
   success: false,
   errorMessage: null,
 };
 
-const userDeleteSlice = createSlice({
-  name: 'userDelete',
+const productDeleteSlice = createSlice({
+  name: 'productDelete',
   initialState,
   reducers: {
-    userDeleteRequest(state) {
+    productDeleteRequest(state) {
       state.isLoading = true;
     },
-    userDeleteSuccess(state) {
+    productDeleteSuccess(state) {
       state.isLoading = false;
       state.success = true;
     },
-    userDeleteFail(state, action: PayloadAction<string>) {
+    productDeleteFail(state, action: PayloadAction<string>) {
       state.isLoading = false;
       state.errorMessage = action.payload;
     },
@@ -31,19 +31,19 @@ const userDeleteSlice = createSlice({
 });
 
 export const {
-  userDeleteRequest,
-  userDeleteSuccess,
-  userDeleteFail,
-} = userDeleteSlice.actions;
+  productDeleteRequest,
+  productDeleteSuccess,
+  productDeleteFail,
+} = productDeleteSlice.actions;
 
-export default userDeleteSlice.reducer;
+export default productDeleteSlice.reducer;
 
-export const deleteUser = (id: number): AppThunk => async (
+export const deleteProduct = (id: number): AppThunk => async (
   dispatch,
   getState
 ) => {
   try {
-    dispatch(userDeleteRequest());
+    dispatch(productDeleteRequest());
 
     const {
       userLogin: { userInfo },
@@ -56,10 +56,10 @@ export const deleteUser = (id: number): AppThunk => async (
       },
     };
 
-    await django.delete(`/api/users/delete/${id}/`, config);
+    await django.delete(`/api/products/delete/${id}/`, config);
 
-    dispatch(userDeleteSuccess());
+    dispatch(productDeleteSuccess());
   } catch (error) {
-    dispatch(userDeleteFail(getErrorMessage(error)));
+    dispatch(productDeleteFail(getErrorMessage(error)));
   }
 };

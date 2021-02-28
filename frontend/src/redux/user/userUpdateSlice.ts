@@ -5,9 +5,7 @@ import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 import { User, userDetailsSuccess } from './userDetailsSlice';
 
-interface UserUpdateState extends CommonState {
-  success: boolean;
-}
+interface UserUpdateState extends CommonState {}
 
 const initialState: UserUpdateState = {
   isLoading: false,

@@ -12,8 +12,8 @@ interface Product {
   category: string;
   price: string;
   countInStock: number;
-  rating: string;
-  numReviews: number;
+  rating?: string;
+  numReviews?: number;
 }
 
 interface Props {

@@ -34,7 +34,7 @@ export const ProductScreen: React.FC<ProductScreenProps> = ({
   const { errorMessage, isLoading, product } = productDetail;
 
   useEffect(() => {
-    dispatch(fetchProductDetails(match.params.id));
+    dispatch(fetchProductDetails(Number(match.params.id)));
   }, [dispatch, match]);
 
   const addToCartHandler = () => {

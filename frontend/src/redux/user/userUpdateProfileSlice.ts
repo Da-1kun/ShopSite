@@ -8,7 +8,6 @@ import { userLoginSuccess } from './userLoginSlice';
 
 interface UserUpdateProfileState extends CommonState {
   userInfo: Partial<UserInfo>;
-  success: boolean;
 }
 
 const initialState: UserUpdateProfileState = {
