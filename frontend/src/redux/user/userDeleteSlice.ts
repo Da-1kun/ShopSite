@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import django from '../../django';
+import axios from 'axios';
 import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 
@@ -56,7 +56,7 @@ export const deleteUser = (id: number): AppThunk => async (
       },
     };
 
-    await django.delete(`/api/users/delete/${id}/`, config);
+    await axios.delete(`/api/users/delete/${id}/`, config);
 
     dispatch(userDeleteSuccess());
   } catch (error) {

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import django from '../../django';
+import axios from 'axios';
 import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 import Product from '../../components/Product';
@@ -69,7 +69,7 @@ export const updateProduct = (product: Product): AppThunk => async (
       },
     };
 
-    const { data } = await django.put(
+    const { data } = await axios.put(
       `/api/products/update/${product._id}/`,
       product,
       config

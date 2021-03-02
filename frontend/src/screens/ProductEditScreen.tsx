@@ -5,7 +5,6 @@ import { Form, Button } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { RouteComponentProps } from 'react-router-dom';
 
-import django from '../django';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import FormContainer from '../components/FormContainer';
@@ -49,6 +48,8 @@ const ProductEditScreen: React.FC<ProductEditScreenProps> = ({
     isLoading: loadingUpdate,
     success: successUpdate,
   } = productUpdate;
+
+  const { userInfo } = useSelector((state: RootState) => state.userLogin);
 
   useEffect(() => {
     if (successUpdate) {
@@ -98,10 +99,11 @@ const ProductEditScreen: React.FC<ProductEditScreenProps> = ({
       const config = {
         headers: {
           'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${userInfo?.token}`,
         },
       };
 
-      const { data } = await django.post(
+      const { data } = await axios.post(
         '/api/products/upload/',
         formData,
         config

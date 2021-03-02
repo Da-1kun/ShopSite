@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import django from '../../django';
+import axios from 'axios';
 import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 import Product from '../../components/Product';
@@ -65,7 +65,7 @@ export const createProduct = (): AppThunk => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await django.post(`/api/products/create/`, {}, config);
+    const { data } = await axios.post(`/api/products/create/`, {}, config);
 
     dispatch(productCreateSuccess(data));
   } catch (error) {

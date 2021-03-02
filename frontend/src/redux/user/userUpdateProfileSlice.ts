@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import { UserInfo } from './userLoginSlice';
-import django from '../../django';
+import axios from 'axios';
 import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 import { userLoginSuccess } from './userLoginSlice';
@@ -76,7 +76,7 @@ export const updateUserProfile = (user: updateParams): AppThunk => async (
       },
     };
 
-    const { data } = await django.put(
+    const { data } = await axios.put(
       `/api/users/profile/update/`,
       user,
       config

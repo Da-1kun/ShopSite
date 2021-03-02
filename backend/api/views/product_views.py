@@ -38,6 +38,7 @@ def createProduct(request):
 
 
 @api_view(['POST'])
+@permission_classes([IsAdminUser])
 def uploadImage(request):
     data = request.data
 

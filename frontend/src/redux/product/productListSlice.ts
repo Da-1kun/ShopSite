@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 import Product from '../../components/Product';
-import django from '../../django';
+import axios from 'axios';
 import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 
@@ -46,7 +46,7 @@ export const fetchProductList = (): AppThunk => async dispatch => {
   try {
     dispatch(productListRequest());
 
-    const { data } = await django.get('/api/products');
+    const { data } = await axios.get('/api/products');
 
     dispatch(productListSuccess(data));
   } catch (error) {

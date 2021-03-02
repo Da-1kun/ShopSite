@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import django from '../../django';
+import axios from 'axios';
 import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 import { User } from './userDetailsSlice';
@@ -68,7 +68,7 @@ export const login = (
       },
     };
 
-    const { data } = await django.post(
+    const { data } = await axios.post(
       '/api/users/login/',
       { username: email, password: password },
       config

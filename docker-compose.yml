@@ -28,6 +28,16 @@ services:
       - PGPORT=5432
     depends_on:
       - postgres
+  # nginx:
+  #   restart: always
+  #   build:
+  #     dockerfile: Dockerfile.dev
+  #     context: ./nginx
+  #   ports:
+  #     - '3050:80'
+  #   depends_on:
+  #     - django
+  #     - client
 
   postgres:
     image: 'postgres:latest'

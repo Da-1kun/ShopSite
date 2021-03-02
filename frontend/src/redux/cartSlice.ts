@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import django from '../django';
+import axios from 'axios';
 import { OrderItem } from './order/orderCreateSlice';
 import { AppThunk } from './store';
 
@@ -87,7 +87,7 @@ export const addToCart = (id: number, qty: number): AppThunk => async (
   dispatch,
   getState
 ) => {
-  const { data } = await django.get(`/api/products/${id}`);
+  const { data } = await axios.get(`/api/products/${id}`);
 
   dispatch(
     cartAddItem({

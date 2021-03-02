@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import django from '../../django';
+import axios from 'axios';
 import { AppThunk } from '../store';
 import { CommonState, getErrorMessage } from '../common';
 
@@ -62,7 +62,7 @@ export const payOrder = (id: string, paymentResult: any): AppThunk => async (
       },
     };
 
-    await django.put(`/api/orders/${id}/pay/`, paymentResult, config);
+    await axios.put(`/api/orders/${id}/pay/`, paymentResult, config);
 
     dispatch(orderPaySuccess());
   } catch (error) {

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-import django from '../../django';
+import axios from 'axios';
 import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 
@@ -72,7 +72,7 @@ export const getUserDetails = (id: string): AppThunk => async (
       },
     };
 
-    const { data } = await django.get(`/api/users/${id}/`, config);
+    const { data } = await axios.get(`/api/users/${id}/`, config);
 
     dispatch(userDetailsSuccess(data));
   } catch (error) {
