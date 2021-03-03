@@ -5,9 +5,13 @@ import axios from 'axios';
 import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 
-interface ProductListState extends CommonState {
+interface ProductListResponse {
   products: Product[];
+  page?: number;
+  pages?: number;
 }
+
+interface ProductListState extends ProductListResponse, CommonState {}
 
 const initialState: ProductListState = {
   isLoading: false,
@@ -23,9 +27,11 @@ const productListSlice = createSlice({
       state.isLoading = true;
       state.products = [];
     },
-    productListSuccess(state, action: PayloadAction<Product[]>) {
+    productListSuccess(state, action: PayloadAction<ProductListResponse>) {
       state.isLoading = false;
-      state.products = action.payload;
+      state.products = action.payload.products;
+      state.page = action.payload.page;
+      state.pages = action.payload.pages;
     },
     productListFail(state, action: PayloadAction<string>) {
       state.isLoading = false;
@@ -42,11 +48,11 @@ export const {
 
 export default productListSlice.reducer;
 
-export const fetchProductList = (): AppThunk => async dispatch => {
+export const fetchProductList = (keyword = ''): AppThunk => async dispatch => {
   try {
     dispatch(productListRequest());
 
-    const { data } = await axios.get('/api/products');
+    const { data } = await axios.get(`/api/products${keyword}`);
 
     dispatch(productListSuccess(data));
   } catch (error) {

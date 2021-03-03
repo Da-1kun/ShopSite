@@ -13,7 +13,7 @@ import {
 } from '../redux/product/productCreateSlice';
 import { fetchProductList } from '../redux/product/productListSlice';
 import { deleteProduct } from '../redux/product/productDeleteSlice';
-// import Paginate from '../components/Paginate'
+import Paginate from '../components/Paginate';
 
 interface ProductListScreenProps extends RouteComponentProps {}
 
@@ -21,7 +21,7 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({ history }) => {
   const dispatch = useDispatch();
 
   const productList = useSelector((state: RootState) => state.productList);
-  const { isLoading, errorMessage, products } = productList;
+  const { isLoading, errorMessage, products, pages, page } = productList;
 
   const productDelete = useSelector((state: RootState) => state.productDelete);
   const {
@@ -41,6 +41,8 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({ history }) => {
   const userLogin = useSelector((state: RootState) => state.userLogin);
   const { userInfo } = userLogin;
 
+  let keyword = history.location.search;
+
   useEffect(() => {
     dispatch(productCreateReset());
 
@@ -51,7 +53,7 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({ history }) => {
     if (successCreate) {
       history.push(`/admin/product/${createdProduct?._id}/edit`);
     } else {
-      dispatch(fetchProductList());
+      dispatch(fetchProductList(keyword));
     }
   }, [
     dispatch,
@@ -60,6 +62,7 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({ history }) => {
     successDelete,
     successCreate,
     createdProduct,
+    keyword,
   ]);
 
   const deleteHandler = (id: number) => {
@@ -138,7 +141,7 @@ const ProductListScreen: React.FC<ProductListScreenProps> = ({ history }) => {
               ))}
             </tbody>
           </Table>
-          {/* <Paginate pages={pages} page={page} isAdmin={true} /> */}
+          <Paginate pages={pages} page={page} isAdmin={true} />
         </div>
       )}
     </div>

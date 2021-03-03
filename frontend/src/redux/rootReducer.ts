@@ -5,6 +5,8 @@ import productDetailsReducer from './product/productDetailsSlice';
 import productCreateReducer from './product/productCreateSlice';
 import productUpdateReducer from './product/productUpdateSlice';
 import productDeleteReducer from './product/productDeleteSlice';
+import productCreateReviewReducer from './product/productCreateReviewSlice';
+import productTopRatedReducer from './product/productTopRatedSlice';
 import userLoginReducer from './user/userLoginSlice';
 import userDetailsReducer from './user/userDetailsSlice';
 import userRegisterReducer from './user/userRegisterSlice';
@@ -26,6 +28,8 @@ const rootReducer = combineReducers({
   productCreate: productCreateReducer,
   productUpdate: productUpdateReducer,
   productDelete: productDeleteReducer,
+  productCreateReview: productCreateReviewReducer,
+  productTopRated: productTopRatedReducer,
   userLogin: userLoginReducer,
   userDetails: userDetailsReducer,
   userRegister: userRegisterReducer,

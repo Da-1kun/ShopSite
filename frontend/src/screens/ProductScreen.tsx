@@ -16,6 +16,10 @@ import { RootState } from '../redux/rootReducer';
 import { fetchProductDetails } from '../redux/product/productDetailsSlice';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
+import {
+  productCreateReviewReset,
+  createProductReview,
+} from '../redux/product/productCreateReviewSlice';
 
 interface MatchParams {
   id: string;
@@ -27,18 +31,44 @@ export const ProductScreen: React.FC<ProductScreenProps> = ({
   match,
   history,
 }) => {
+  const productId = Number(match.params.id);
   const [qty, setQty] = useState(1);
+  const [rating, setRating] = useState(0);
+  const [comment, setComment] = useState('');
 
   const dispatch = useDispatch();
   const productDetail = useSelector((state: RootState) => state.productDetails);
   const { errorMessage, isLoading, product } = productDetail;
 
+  const userLogin = useSelector((state: RootState) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const productReviewCreate = useSelector(
+    (state: RootState) => state.productCreateReview
+  );
+  const {
+    isLoading: loadingProductReview,
+    errorMessage: errorProductReview,
+    success: successProductReview,
+  } = productReviewCreate;
+
   useEffect(() => {
-    dispatch(fetchProductDetails(Number(match.params.id)));
-  }, [dispatch, match]);
+    if (successProductReview) {
+      setRating(0);
+      setComment('');
+      dispatch(productCreateReviewReset());
+    }
+
+    dispatch(fetchProductDetails(productId));
+  }, [dispatch, match, successProductReview]);
 
   const addToCartHandler = () => {
     history.push(`/cart/${match.params.id}?qty=${qty}`);
+  };
+
+  const submitHandler = (e: React.SyntheticEvent) => {
+    e.preventDefault();
+    dispatch(createProductReview({ product: productId, rating, comment }));
   };
 
   return (
@@ -54,8 +84,9 @@ export const ProductScreen: React.FC<ProductScreenProps> = ({
         <div>
           <Row>
             <Col md={6}>
-              <Image src={product.image} alt={product.name} fluid></Image>
+              <Image src={product.image} alt={product.name} fluid />
             </Col>
+
             <Col md={3}>
               <ListGroup variant="flush">
                 <ListGroup.Item>
@@ -101,7 +132,7 @@ export const ProductScreen: React.FC<ProductScreenProps> = ({
                   {product.countInStock > 0 && (
                     <ListGroup.Item>
                       <Row>
-                        <Col className="my-auto">Qty</Col>
+                        <Col>Qty</Col>
                         <Col xs="auto" className="my-1">
                           <Form.Control
                             as="select"
@@ -131,6 +162,80 @@ export const ProductScreen: React.FC<ProductScreenProps> = ({
                   </ListGroup.Item>
                 </ListGroup>
               </Card>
+            </Col>
+          </Row>
+
+          <Row className="mt-4">
+            <Col md={6}>
+              <h4>Reviews</h4>
+              {product.reviews?.length === 0 && (
+                <Message variant="info">No Reviews</Message>
+              )}
+
+              <ListGroup variant="flush">
+                {product.reviews?.map(review => (
+                  <ListGroup.Item key={review._id}>
+                    <strong>{review.name}</strong>
+                    <Rating value={Number(product.rating)} color={'#f8e825'} />
+                    <p>{review.createdAt?.substring(0, 10)}</p>
+                    <p>{review.comment}</p>
+                  </ListGroup.Item>
+                ))}
+
+                <ListGroup.Item>
+                  <h4>Write a review</h4>
+
+                  {loadingProductReview && <Loader />}
+                  {successProductReview && (
+                    <Message variant="success">Review Submitted</Message>
+                  )}
+                  {errorProductReview && (
+                    <Message variant="danger">{errorProductReview}</Message>
+                  )}
+
+                  {userInfo ? (
+                    <Form onSubmit={submitHandler}>
+                      <Form.Group controlId="rating">
+                        <Form.Label>Rating</Form.Label>
+                        <Form.Control
+                          as="select"
+                          value={rating}
+                          onChange={e => setRating(Number(e.target.value))}
+                        >
+                          <option value="">Select...</option>
+                          <option value="1">1 - Poor</option>
+                          <option value="2">2 - Fair</option>
+                          <option value="3">3 - Good</option>
+                          <option value="4">4 - Very Good</option>
+                          <option value="5">5 - Excellent</option>
+                        </Form.Control>
+                      </Form.Group>
+
+                      <Form.Group controlId="comment">
+                        <Form.Label>Review</Form.Label>
+                        <Form.Control
+                          as="textarea"
+                          rows={5}
+                          value={comment}
+                          onChange={e => setComment(e.target.value)}
+                        ></Form.Control>
+                      </Form.Group>
+
+                      <Button
+                        disabled={loadingProductReview}
+                        type="submit"
+                        variant="primary"
+                      >
+                        Submit
+                      </Button>
+                    </Form>
+                  ) : (
+                    <Message variant="info">
+                      Please <Link to="/login">login</Link> to write a review
+                    </Message>
+                  )}
+                </ListGroup.Item>
+              </ListGroup>
             </Col>
           </Row>
         </div>

@@ -1,7 +1,9 @@
 import React from 'react';
 import { Card } from 'react-bootstrap';
-import Rating from './Rating';
 import { Link } from 'react-router-dom';
+
+import Rating from './Rating';
+import { Review } from '../redux/product/productCreateReviewSlice';
 
 interface Product {
   _id: number;
@@ -14,6 +16,7 @@ interface Product {
   countInStock: number;
   rating?: string;
   numReviews?: number;
+  reviews?: Review[];
 }
 
 interface Props {

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
 import axios from 'axios';
+
 import { CommonState, getErrorMessage } from '../common';
 import { AppThunk } from '../store';
 import Product from '../../components/Product';

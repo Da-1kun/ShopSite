@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Navbar, Nav, Container, Row, NavDropdown } from 'react-bootstrap';
+import { Navbar, Nav, Container, NavDropdown } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
 
 import { RootState } from '../redux/rootReducer';
@@ -8,6 +8,7 @@ import { userLogout } from '../redux/user/userLoginSlice';
 import { userDetailsReset } from '../redux/user/userDetailsSlice';
 import { orderListMyReset } from '../redux/order/orderListMySlice';
 import { userListReset } from '../redux/user/userListSlice';
+import SearchBox from './SearchBox';
 
 const Header: React.FC = () => {
   const userLogin = useSelector((state: RootState) => state.userLogin);
@@ -33,6 +34,7 @@ const Header: React.FC = () => {
 
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
+            <SearchBox />
             <Nav className="ml-auto">
               <LinkContainer to="/cart">
                 <Nav.Link>
