@@ -9,7 +9,7 @@ import Product from '../components/Product';
 import Loader from '../components/Loader';
 import Message from '../components/Message';
 import Paginate from '../components/Paginate';
-// import ProductCarousel from '../components/ProductCarousel'
+import ProductCarousel from '../components/ProductCarousel';
 
 const HomeScreen: React.FC<RouteComponentProps> = ({ history }) => {
   const dispatch = useDispatch();
@@ -24,6 +24,8 @@ const HomeScreen: React.FC<RouteComponentProps> = ({ history }) => {
 
   return (
     <div>
+      {!keyword && <ProductCarousel />}
+
       <h1>Latest Products</h1>
       {isLoading ? (
         <Loader />
