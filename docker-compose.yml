@@ -3,23 +3,24 @@ services:
   client:
     stdin_open: true
     build:
-      context: ./frontend
+      context: ./app/frontend
       dockerfile: Dockerfile.dev
     ports:
       - '3000:3000'
     volumes:
       - /app/frontend/node_modules
-      - ./frontend:/app/frontend
+      - ./app/frontend:/app/frontend
   django:
     build:
-      context: ./backend
+      context: ./app
       dockerfile: Dockerfile.dev
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./backend:/app/backend
+      - ./app:/app
     ports:
       - 8000:8000
     environment:
+      - DEBUG=1
       - DATABASE_ENGINE=django.db.backends.postgresql
       - DATABASE_DB=postgres
       - PGUSER=postgres
