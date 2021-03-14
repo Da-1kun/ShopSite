@@ -19,21 +19,13 @@ services:
       - ./app:/app
     ports:
       - 8000:8000
-    environment:
-      - DEBUG=1
-      - DATABASE_ENGINE=django.db.backends.postgresql
-      - DATABASE_DB=postgres
-      - PGUSER=postgres
-      - PGPASSWORD=postgres_password
-      - PGHOST=postgres
-      - PGPORT=5432
+    env_file: ./env/dev.env
     depends_on:
       - postgres
 
   postgres:
     image: 'postgres:latest'
-    environment:
-      - POSTGRES_PASSWORD=postgres_password
+    env_file: ./env/db.env
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
