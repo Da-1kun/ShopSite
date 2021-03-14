@@ -19,13 +19,23 @@ services:
       - ./app:/app
     ports:
       - 8000:8000
-    env_file: ./env/dev.env
+    environment:
+      - DEBUG=1
+      - ALLOWED_HOSTS=django
+      - SECRET_KEY=${SECRET_KEY}
+      - DATABASE_ENGINE=django.db.backends.postgresql
+      - DATABASE_DB=postgres
+      - PGUSER=postgres
+      - PGPASSWORD=postgres_password
+      - PGHOST=postgres
+      - PGPORT=5432
     depends_on:
       - postgres
 
   postgres:
     image: 'postgres:latest'
-    env_file: ./env/db.env
+    environment:
+      - POSTGRES_PASSWORD=postgres_password
     volumes:
       - postgres_data:/var/lib/postgresql/data
 
